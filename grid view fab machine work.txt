@@ -1,0 +1,124 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Test : System.Web.UI.Page
+{
+    OfficeDtEntities ob = new OfficeDtEntities();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {            
+            var str = (from test in ob.Emp  select test).ToList();
+            DropDownList1.DataSource = str;
+            DropDownList1.DataTextField = "empid";
+            DropDownList1.DataBind();
+            DropDownList1.Items.Insert(0, "...Select...");      
+         }
+    }
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string ide = DropDownList1.SelectedValue.ToString();
+        var str = (from test in ob.Emp where test.empid == ide select test).ToList();
+        GridView1.DataSource = str;
+        GridView1.DataBind();
+    }
+
+    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    {
+        foreach(GridViewRow vrow in GridView1.Rows)
+        {
+            CheckBox checkbox1 = (CheckBox)vrow.FindControl("CheckBox1");
+            if(checkbox1.Checked==true)
+            {
+                TextBox textbox1 = (TextBox)vrow.FindControl("TextBox1");
+                TextBox textbox2 = (TextBox)vrow.FindControl("TextBox2");
+                TextBox textbox3 = (TextBox)vrow.FindControl("TextBox3");
+                TextBox textbox4 = (TextBox)vrow.FindControl("TextBox4");
+                TextBox textbox5 = (TextBox)vrow.FindControl("TextBox5");
+                TextBox textbox6 = (TextBox)vrow.FindControl("TextBox6");
+                TextBox textbox7 = (TextBox)vrow.FindControl("TextBox7");
+                TextBox textbox8 = (TextBox)vrow.FindControl("TextBox8");
+                string ide = GridView1.DataKeys[vrow.RowIndex].Value.ToString();
+                var str = (from test in ob.Emp where test.empid == ide select test).FirstOrDefault();
+                textbox1.Text = str.name;
+                textbox2.Text = str.adr;
+                textbox3.Text = str.phno;
+                textbox4.Text = str.sal.ToString();
+                textbox5.Text = str.city;
+                textbox6.Text = str.gen;
+                textbox7.Text = str.dep;
+                textbox8.Text = str.cmp;
+                textbox1.Enabled = true;
+                textbox2.Enabled = true;
+                textbox3.Enabled = true;
+                textbox4.Enabled = true;
+                textbox5.Enabled = true;
+                textbox6.Enabled = true;
+                textbox7.Enabled = true;
+                textbox8.Enabled = true;
+            }
+            else
+            {
+                TextBox textbox1 = (TextBox)vrow.FindControl("TextBox1");
+                TextBox textbox2 = (TextBox)vrow.FindControl("TextBox2");
+                TextBox textbox3 = (TextBox)vrow.FindControl("TextBox3");
+                TextBox textbox4 = (TextBox)vrow.FindControl("TextBox4");
+                TextBox textbox5 = (TextBox)vrow.FindControl("TextBox5");
+                TextBox textbox6 = (TextBox)vrow.FindControl("TextBox6");
+                TextBox textbox7 = (TextBox)vrow.FindControl("TextBox7");
+                TextBox textbox8 = (TextBox)vrow.FindControl("TextBox8");
+                textbox1.Enabled = false; 
+                textbox2.Enabled = false;
+                textbox3.Enabled = false;
+                textbox4.Enabled = false;
+                textbox5.Enabled = false;
+                textbox6.Enabled = false;
+                textbox7.Enabled = false;
+                textbox8.Enabled = false;
+            }
+        }
+    }
+
+    protected void LinkButton1_Click(object sender, EventArgs e)
+    {
+        foreach (GridViewRow vrow in GridView1.Rows)
+        {
+            CheckBox checkbox1 = (CheckBox)vrow.FindControl("CheckBox1");
+            if (checkbox1.Checked == true)
+            {
+                TextBox textbox1 = (TextBox)vrow.FindControl("TextBox1");
+                TextBox textbox2 = (TextBox)vrow.FindControl("TextBox2");
+                TextBox textbox3 = (TextBox)vrow.FindControl("TextBox3");
+                TextBox textbox4 = (TextBox)vrow.FindControl("TextBox4");
+                TextBox textbox5 = (TextBox)vrow.FindControl("TextBox5");
+                TextBox textbox6 = (TextBox)vrow.FindControl("TextBox6");
+                TextBox textbox7 = (TextBox)vrow.FindControl("TextBox7");
+                TextBox textbox8 = (TextBox)vrow.FindControl("TextBox8");
+                string ide = GridView1.DataKeys[vrow.RowIndex].Value.ToString();
+                var str = (from test in ob.Emp where test.empid == ide select test).FirstOrDefault();
+                str.name = textbox1.Text.Trim();
+                str.adr = textbox2.Text.Trim();
+                str.phno = textbox3.Text.Trim();
+                str.sal = Convert.ToInt32(textbox4.Text.Trim());
+                str.city = textbox5.Text.Trim();
+                str.gen = textbox6.Text.Trim();
+                str.dep = textbox7.Text.Trim();
+                str.cmp = textbox8.Text.Trim();
+                ob.SaveChanges();
+                var str1 = (from test in ob.Emp where test.empid == ide select test).ToList();
+                DetailsView1.DataSource = str1;
+                DetailsView1.DataBind();
+            }
+        }
+    }
+}

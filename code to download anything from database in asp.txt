@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Data;
+
+public partial class Default5 : System.Web.UI.Page
+{
+    clientEntities ob = new clientEntities();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        var str = (from test in ob.Table_2 select test).ToList();
+        GridView1.DataSource = str;
+        GridView1.DataBind();
+    }
+
+    protected void LinkButton1_Click(object sender, EventArgs e)
+    {
+
+    }
+    
+    protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+       
+    }
+
+    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void LinkButton1_Click1(object sender, EventArgs e)
+    {
+        foreach(GridViewRow vrow in GridView1.Rows)
+        {
+            LinkButton linkbutton = (LinkButton)vrow.FindControl("LinkButton1");
+            string fname = (from test in ob.Table_2 select test.name).FirstOrDefault();
+            Response.ContentType = "application/octect-stream";
+            Response.AppendHeader("Content-Disposition", "attachment;filename=" + fname);
+            string aaa = (from test in ob.Table_2 select test.name).FirstOrDefault();
+            Response.TransmitFile(aaa);
+            Response.End();
+        }
+    }
+}
+
+1. create link button in grid view: 
+click on arrow->data binding->text->Eval("<Pic address attribute name>")  [to copyall names of the image from database]
+Command argument--> Eval("<Pic address attribute name>")
+
+ex:  <asp:LinkButton ID="LinkButton1" runat="server" CommandArgument='<%# Eval("name") %>' CommandName="Download" Text='<%# Eval("name") %>' OnClick="LinkButton1_Click1"></asp:LinkButton>
+
+
+2. gridview DataKeyNames--> id
+
+3. 

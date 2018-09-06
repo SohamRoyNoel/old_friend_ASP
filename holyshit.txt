@@ -1,0 +1,512 @@
+fetch:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using CrudMvc.Models;
+using CrudMvc.Controllers;
+namespace CrudMvc.Controllers
+{
+    public class FetchController : Controller
+    {
+        // GET: Fetch
+        OfficeDtEntities ob = new OfficeDtEntities();
+        [HttpGet]
+        public ActionResult Index()
+        {
+            var str = (from test in ob.Emp select test).ToList();
+            ViewBag.list = str;
+            return View();
+        }
+    }
+}
+
+
+view fetch:
+@{
+    var p = ViewBag.list;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <marquee behavior="alternate" scrollamount="10"><h2>Show Employee Details</h2></marquee>
+    </div>
+    <br /><br />
+    @if (p != null)
+    {
+    <div class="container"> 
+        <table class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>ADDRES</th>
+                <th>CONTACTNO</th>
+                <th>SALARY</th>
+                <th>CITY</th>
+                <th>GENDER</th>
+                <th>DEPARTMENT</th>
+                <th>COMPANY</th>
+            </tr>
+            @foreach(var str in p)
+            {
+                <tr>
+                    <td>@str.empid</td>
+                    <td>@str.name</td>
+                    <td>@str.adr</td>
+                    <td>@str.phno</td>
+                    <td>@str.sal</td>
+                    <td>@str.city</td>
+                    <td>@str.gen</td>
+                    <td>@str.dep</td>
+                    <td>@str.cmp</td>
+                </tr>
+            }
+        </table>
+    </div>
+    }
+</body>
+</html>
+------------------------------------------------------------------------->
+
+search------>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using CrudMvc.Controllers;
+using CrudMvc.Models;
+namespace CrudMvc.Controllers
+{
+    public class SearchController : Controller
+    {
+        // GET: Search
+        OfficeDtEntities ob = new OfficeDtEntities();
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(string search)
+        {
+            var str = (from test in ob.Emp where test.empid == search select test).ToList();
+            if(str.Count>0)
+            {
+                ViewBag.list = str;
+            }
+            else
+            {
+                ViewBag.result = "No Data Found!!";
+            }
+            return View();
+        }
+    }
+}
+view---->
+@{
+    var p = ViewBag.list;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    @using (Html.BeginForm("Index", "Search", FormMethod.Post))
+    {
+    <div class="container"> 
+        <div class="form-group">
+            <label for="exampleInputEmail1">Enter EmployeeId: </label>
+            @Html.TextBox("search", null, new { @id = "txt1", @class = "form-control" })
+            <button type="submit" id="btnsearch" class="btn btn-primary">Search Data</button>
+            <label>@ViewBag.result</label>            
+        </div>
+    </div>
+    }
+    @if (p != null)
+    {
+        <div class="container">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>ADDRES</th>
+                    <th>CONTACTNO</th>
+                    <th>SALARY</th>
+                    <th>CITY</th>
+                    <th>GENDER</th>
+                    <th>DEPARTMENT</th>
+                    <th>COMPANY</th>
+                </tr>
+                @foreach (var str in p)
+                {
+                    <tr>
+                        <td>@str.empid</td>
+                        <td>@str.name</td>
+                        <td>@str.adr</td>
+                        <td>@str.phno</td>
+                        <td>@str.sal</td>
+                        <td>@str.city</td>
+                        <td>@str.gen</td>
+                        <td>@str.dep</td>
+                        <td>@str.cmp</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</body>
+</html>
+
+------------------------------------------------------------------------------------>
+
+search1-->
+@{
+    var p = ViewBag.list;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    @using (Html.BeginForm("Index", "Search1", FormMethod.Post))
+    {
+    <div class="container">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Enter Name:</label>
+            @Html.TextBox("name", null, new { @id="txtnm",@class="form-control"})
+            
+        </div>
+        <div class="form-group">
+            <button type="submit" id="btnnm" class="btn btn-default">Search Data</button>
+            <label>@ViewBag.result</label>
+        </div>
+    </div>
+    }
+    @if (p != null)
+    {
+        <div class="container">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>ADDRES</th>
+                    <th>CONTACTNO</th>
+                    <th>SALARY</th>
+                    <th>CITY</th>
+                    <th>GENDER</th>
+                    <th>DEPARTMENT</th>
+                    <th>COMPANY</th>
+                </tr>
+                @foreach (var str in p)
+                {
+                    <tr>
+                        <td>@str.empid</td>
+                        <td>@str.name</td>
+                        <td>@str.adr</td>
+                        <td>@str.phno</td>
+                        <td>@str.sal</td>
+                        <td>@str.city</td>
+                        <td>@str.gen</td>
+                        <td>@str.dep</td>
+                        <td>@str.cmp</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</body>
+</html>
+
+controller:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using CrudMvc.Controllers;
+using CrudMvc.Models;
+namespace CrudMvc.Controllers
+{
+    public class Search1Controller : Controller
+    {
+        // GET: Search1
+        OfficeDtEntities ob = new OfficeDtEntities();
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(string name)
+        {
+            var str = (from test in ob.Emp where test.name.StartsWith(name) select test).ToList();
+            if(str.Count>0)
+            {
+                ViewBag.list = str;
+            }
+            else
+            {
+                ViewBag.result = "No Data Found!!";
+            }
+            return View();
+        }
+    }
+}
+
+search 2 dynamic--------------->
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using CrudMvc.Controllers;
+using CrudMvc.Models;
+namespace CrudMvc.Controllers
+{
+    public class Search2Controller : Controller
+    {
+        // GET: Search2
+        OfficeDtEntities ob = new OfficeDtEntities();
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(string key)
+        {
+            var str = (from test in ob.Emp where test.empid == key || test.name.StartsWith(key) || test.adr == key || test.dep == key || test.cmp == key select test).ToList();
+            if(str.Count>0)
+            {
+                ViewBag.list = str;
+            }
+            else
+            {
+                ViewBag.result = "No Data Found!!";
+            }
+            return View();
+        }
+    }
+}
+
+
+
+
+@{
+    var p = ViewBag.list;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="~/js/bootstrap.min.js"></script>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    @using (Html.BeginForm("Index", "Search2", FormMethod.Post))
+    {
+    <div class="container">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Enter Key:</label>
+            @Html.TextBox("key", null, new { @id = "txtnm", @class = "form-control" })
+
+        </div>
+        <div class="form-group">
+            <button type="submit" id="btnnm" class="btn btn-default">Search Data</button>
+            <label>@ViewBag.result</label>
+        </div> 
+    </div>
+    }
+    @if (p != null)
+    {
+        <div class="container">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>ADDRES</th>
+                    <th>CONTACTNO</th>
+                    <th>SALARY</th>
+                    <th>CITY</th>
+                    <th>GENDER</th>
+                    <th>DEPARTMENT</th>
+                    <th>COMPANY</th>
+                </tr>
+                @foreach (var str in p)
+                {
+                    <tr>
+                        <td>@str.empid</td>
+                        <td>@str.name</td>
+                        <td>@str.adr</td>
+                        <td>@str.phno</td>
+                        <td>@str.sal</td>
+                        <td>@str.city</td>
+                        <td>@str.gen</td>
+                        <td>@str.dep</td>
+                        <td>@str.cmp</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</body>
+</html>
+
+
+
+----------------------------login and dlogout
+
+login
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using CrudMvc.Controllers;
+using CrudMvc.Models;
+namespace CrudMvc.Controllers
+{
+    public class UserLoginController : Controller
+    {
+        // GET: UserLogin
+        OfficeDtEntities ob = new OfficeDtEntities();
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(string empid,string pwd)
+        {
+            var str = (from test in ob.Userlog where test.mailid == empid && test.pwd == pwd select test).ToList();
+            if(str.Count!=0)
+            {
+                Session["ID"] = empid;
+                return RedirectToAction("Index", "UserPro");
+            }
+            else
+            {
+                ViewBag.result = "Invalid Login";
+            }
+            return View();
+        }
+        
+    }
+}
+
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    @using (Html.BeginForm("Index", "UserLogin", FormMethod.Post))
+    {
+    <div class="container">
+        <div class="form-group">
+            <label>Enter MailId: </label>
+            @Html.TextBox("empid", null, new { @id = "txtmail", @class = "form-control", @placeholder = "Your MailId" })            
+        </div> 
+        <div class="form-group">
+            <label>Enter Password: </label>
+            @Html.Password("pwd", null, new { @id = "txtpass", @class = "form-control", @placeholder = "Your Password" })
+        </div> 
+        <div class="form-group">
+            <button type="submit" id="btnlog" class="btn btn-primary">Login</button>
+            <label>@ViewBag.result</label>
+        </div>
+    </div>
+    }
+</body>
+</html>
+
+
+
+logout------>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using CrudMvc.Controllers;
+namespace CrudMvc.Controllers
+{
+    public class UserProController : Controller
+    {
+        // GET: UserPro
+        public ActionResult Index()
+        {
+            ViewBag.list = Session["ID"].ToString();
+            return View();
+        }
+        [HttpPost]
+        public ActionResult logout()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index", "UserLogin");
+        }
+    }
+}
+
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div style="float:right"> 
+        <label>@ViewBag.list</label>        
+       @Html.ActionLink("Logout", "logout", "UserPro")
+    </div>
+</body>
+</html>
+

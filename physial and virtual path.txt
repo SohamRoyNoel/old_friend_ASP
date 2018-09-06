@@ -1,0 +1,15 @@
+virtual path:- the path that is used at browser.
+
+physical path:  path where the web page is stored, at hard drive.
+
+write this at any cs page respected with an aspx page then the path is give, that is called Physical path.
+
+response.write(Server.MapPath(".") + "<br />);  //adress of current executing page
+
+response.write(Server.MapPath(". .") + "<br />);  //gives the address of parent directory of the current executing page
+
+response.write(Server.MapPath("~") + "<br />);  //gives the address of root directory of the current executing page
+
+errors:
+
+response.write(Server.MapPath(". .") + "<br />);  //when you are at parent directory

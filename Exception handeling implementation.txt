@@ -1,0 +1,54 @@
+Exception handeling implementation
+**************************************************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+
+public partial class Default28 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            DataSet ds = new DataSet();
+            ds.ReadXml(Server.MapPath("~/Countpy_db.xml"));
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+        catch(Exception ex) //parent exception case
+        {
+            Label1.Text = "unknown fuckin error";
+        }
+    }
+}
+
+***************************************************************
+requered XML
+***************************************************************
+<?xml version="1.0" encoding="utf-8" ?>
+<Countries>
+  <Country>
+    <Id>101</Id>
+    <Name>India</Name>
+    <Continent>Asia</Continent>
+  </Country>
+  <Country>
+    <Id>102</Id>
+    <Name>UK</Name>
+    <Continent>Europe</Continent>
+  </Country>
+  <Country>
+    <Id>103</Id>
+    <Name>US</Name>
+    <Continent>North America</Continent>
+  </Country>
+  <Country>
+    <Id>104</Id>
+    <Name>France</Name>
+    <Continent>Europe</Continent>
+  </Country>
+</Countries>

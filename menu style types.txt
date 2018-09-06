@@ -1,0 +1,15 @@
+To configure styles for the statically displayed portion of the menu, use
+
+StaticMenuStyle - Applicable for the entire statically displayed portion of the menu
+StaticMenuItemStyle - Applicable for the individual menu items in the statically displayed portion of the menu
+StaticSelectedStyle - Applicable for the selected menu item in the statically displayed portion of the menu
+StaticHoverStyle - Applicable for the statically displayed menu item over which mouse is hovered over
+
+To configure styles for the dynamically displayed portion of the menu, use
+
+DynamicMenuStyle - Applicable for the entire dynamically displayed portion of the menu
+DynamicMenuItemStyle - Applicable for the individual menu items in the dynamically displayed portion of the menu
+DynamicSelectedStyle - Applicable for the selected menu item in the dynamically displayed portion of the menu
+DynamicHoverStyle - Applicable for the dynamically displayed menu item over which mouse is hovered over
+
+venkat vid 154

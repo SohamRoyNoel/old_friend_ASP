@@ -1,0 +1,101 @@
+--------------------------------------------------------------------------------------------------------------------
+master page model code
+--------------------------------------------------------------------------------------------------------------------
+<%@ master language="C#" autoeventwireup="true" codefile="MasterPage.master.cs" inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <table style="font-family: Arial">
+            <tr>
+                <td colspan="2" style="width: 800px; height: 80px; text-align: center; background-color: #BDBDBD;">
+                    <h1>WebSite Header
+                    </h1>
+                </td>
+            </tr>
+            <tr>
+                <td style="height: 500px; background-color: #D8D8D8; width: 150px">
+                    <h3>Menu</h3>
+                    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                </td>
+                <td style="height: 500px; background-color: #E6E6E6; width: 650px">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                        <h1>Section that changes on a page by page basis
+                    <asp:ContentPlaceHolder ID="MainContentPlaceHolder1" runat="server">
+                        <h1>Section that changes on a page by page basis</h1>
+                    </asp:ContentPlaceHolder>
+                        </h1>
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="background-color: #BDBDBD; text-align: center">
+                    <b>Website Footer</b>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------
+masterpage.master.cs file
+--------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+//sending value from BASE page to Master Page
+public partial class MasterPage : System.Web.UI.MasterPage
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    public TextBox ttonMaster
+    {
+        get
+        {
+            return TextBox1; //this is an instance of "class MasterPage" class. 
+            //belongs to master class. 
+            //public property
+        }
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------
+aspx page
+--------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+//sending value from BASE page to Master Page
+
+public partial class Default17 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        //base page
+        //returns master page object
+        ((MasterPage)Master).ttonMaster.Text = TextBox1.Text;
+    }
+}

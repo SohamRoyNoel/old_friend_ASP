@@ -1,0 +1,208 @@
+an Ajax timar control has TICK event. 
+
+interval is counted at mili seconds.
+
+Ajax control Always needs a SCRIPTMANAGER
+
+Random image showing using AJAX:
+
+html view:
+<%@ page language="C#" autoeventwireup="true" codefile="Default12.aspx.cs" inherits="Default12" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+
+            <asp:UpdatePanel runat="server">
+                <ContentTemplate>                                     //without this page will be Refreshed as the pic is to be changed
+                    <asp:Timer ID="Timer1" runat="server" Interval="1000" OnTick="Timer1_Tick"></asp:Timer>
+                    <asp:Image ID="Image1" Height="100" Width="100" runat="server" />
+                    <br />
+                    displaying image:
+                    <asp:Label ID="Label1" runat="server"></asp:Label>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </div>
+    </form>
+</body>
+</html>
+
+
+
+aspx.cs page:
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default12 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if(!Page.IsPostBack)
+        {
+            cat();
+        }
+    }
+
+    private void cat()
+    {
+        Random xp = new Random();
+        int i = xp.Next(1, 8);
+        Image1.ImageUrl = "~/random_pic_test/" + i.ToString() + ".jpg";
+    }
+
+    protected void Timer1_Tick(object sender, EventArgs e)
+    {
+        cat();
+    }
+    //without ajax it shows 
+}
+
+this gives you a random number of pics;
+
+//it generates random pics not like: 1.jpg, 2.jpg, 3.jpg, 4.jpg & so on.................
+
+-------------------generating pics one after one in a particular sequence:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default12 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            cat();
+        }
+    }
+
+    private void cat()
+    {
+        if(ViewState["img"]==null)
+        {
+            Image1.ImageUrl = "~/random_pic_test/1.jpg";
+            ViewState["img"] = 1;
+            Label1.Text = 1.ToString();
+        }
+        else
+        {
+            int i = Convert.ToInt32(ViewState["img"]);
+            if (i == 8)
+            {
+                Image1.ImageUrl = "~/random_pic_test/1.jpg";
+                ViewState["img"] = 1;
+                Label1.Text = 1.ToString();
+            }
+            else
+            {
+                i = Convert.ToInt32(ViewState["img"]);
+                i = i + 1;
+                Image1.ImageUrl = "~/random_pic_test/" + i.ToString() + ".jpg";
+                ViewState["img"] = i;
+                Label1.Text = i.ToString();
+            }
+        }
+        
+    }
+
+    protected void Timer1_Tick(object sender, EventArgs e)
+    {
+        cat();
+    }
+    //without ajax it shows 
+}
+
+-------------------------------------------start and stop control-------------------------------------------------------------->
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default12 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            cat();
+        }
+    }
+
+    private void cat()
+    {
+        if(ViewState["img"]==null)
+        {
+            Image1.ImageUrl = "~/random_pic_test/1.jpg";
+            ViewState["img"] = 1;
+            Label1.Text = 1.ToString();
+        }
+        else
+        {
+            int i = Convert.ToInt32(ViewState["img"]);
+            if (i == 8)
+            {
+                Image1.ImageUrl = "~/random_pic_test/1.jpg";
+                ViewState["img"] = 1;
+                Label1.Text = 1.ToString();
+            }
+            else
+            {
+                i = Convert.ToInt32(ViewState["img"]);
+                i = i + 1;
+                Image1.ImageUrl = "~/random_pic_test/" + i.ToString() + ".jpg";
+                ViewState["img"] = i;
+                Label1.Text = i.ToString();
+            }
+        }
+        
+    }
+
+    protected void Timer1_Tick(object sender, EventArgs e)
+    {
+        cat();
+    }
+    //without ajax it shows 
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        if(Timer1.Enabled)
+        {
+            Timer1.Enabled = false;
+            Button1.Text = "Stop the cocksucker";
+        }
+        else
+        {
+            Timer1.Enabled = true;
+            Button1.Text = "Start the cocksucker";
+        }
+    }
+}
+
+//collecting multiple pics from database in order to solve the problems.
+//1. hardcoading the pic names as 7.jpg, 8.jpg is not good enough.
+//2. if a pic is uploaded that's gonna make a problem, we gotta change the whole application code.
+@default 13-----------------Database
+@default 14-----------------xml
+
+//using Database solution @ default 13
+
+
+
+

@@ -1,0 +1,4 @@
+ Random rd = new Random();
+        int i = rd.Next(1, 5000);
+        string t = "Seller";
+        string emp = t + i;

@@ -1,0 +1,96 @@
+***************************************************************
+Wizard Control
+***************************************************************
+.aspx page
+------------------------------------------------------>
+------------------------------------------------------>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Wizard.aspx.cs" Inherits="Wizard" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1" OnFinishButtonClick="Wizard1_FinishButtonClick" OnNextButtonClick="Wizard1_NextButtonClick">
+                <WizardSteps>
+                    <asp:WizardStep ID="WizardStep1" runat="server" Title="Personal Details">FIRST NAME:
+                        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                        :<br /> LAST NAME:
+                        <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                        <br />
+                        GENDER:<asp:DropDownList ID="DropDownList1" runat="server">
+                            <asp:ListItem>Male</asp:ListItem>
+                            <asp:ListItem>Female</asp:ListItem>
+                        </asp:DropDownList>
+                    </asp:WizardStep>
+                    <asp:WizardStep ID="WizardStep2" runat="server" Title="Contact Details">mail address:
+                        <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
+                        <br />
+                        Mobile No:
+                        <asp:TextBox ID="TextBox4" runat="server"></asp:TextBox>
+                    </asp:WizardStep>
+                     <asp:WizardStep ID="WizardStep3" runat="server" Title="Summary">PERSONAL DETAILS:<br />
+                         <br />
+                         First Name:
+                         <asp:Label ID="Label1" runat="server"></asp:Label>
+                         <br />
+                         Last Name:
+                         <asp:Label ID="Label2" runat="server"></asp:Label>
+                         <br />
+                         Gender:
+                         <asp:Label ID="Label3" runat="server"></asp:Label>
+                         <br />
+                         <br />
+                         CONTACT DETAILS<br />
+                         <br />
+                         Email:
+                         <asp:Label ID="Label4" runat="server"></asp:Label>
+                         <br />
+                         Mobile:
+                         <asp:Label ID="Label5" runat="server"></asp:Label>
+                    </asp:WizardStep>
+                </WizardSteps>
+            </asp:Wizard>
+        </div>
+    </form>
+</body>
+</html>
+
+------------------------------------------------------>
+------------------------------------------------------>
+.aspx.cs page
+------------------------------------------------------>
+------------------------------------------------------>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Wizard : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void Wizard1_FinishButtonClick(object sender, WizardNavigationEventArgs e)
+    {
+
+    }
+
+    protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
+    {
+        Label1.Text = TextBox1.Text;
+        Label2.Text = TextBox2.Text;
+        Label3.Text = DropDownList1.SelectedValue.ToString();
+
+        Label4.Text = TextBox3.Text;
+        Label5.Text = TextBox4.Text;
+    }
+}

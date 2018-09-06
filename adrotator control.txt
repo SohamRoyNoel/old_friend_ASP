@@ -1,0 +1,72 @@
+---------------------------------------------------------------------------------------------------------------------------------------
+AdRotator control
+---------------------------------------------------------------------------------------------------------------------------------------
+
+.xml file=======================================================>
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Advertisements>
+  <Ad>
+    <ImageUrl>~/adrotat_img/download.jpg</ImageUrl>
+    <NavigateUrl>https://en.wikipedia.org/wiki/Cognizant</NavigateUrl>
+    <AlternateText>Please visit http://www.Google.com</AlternateText>
+    <Impressions>10</Impressions>
+  </Ad>
+  <Ad>
+    <ImageUrl>~/adrotat_img/images.jpg</ImageUrl>
+    <NavigateUrl>https://en.wikipedia.org/wiki/Capgemini</NavigateUrl>
+    <AlternateText>Please visit http://www.pragimtech.com</AlternateText>
+    <Impressions>20</Impressions>
+  </Ad>
+  <Ad>
+    <ImageUrl>~/adrotat_img/images.png</ImageUrl>
+    <NavigateUrl>https://en.wikipedia.org/wiki/Tata_Consultancy_Services</NavigateUrl>
+    <AlternateText>Please visit http://www.Youtube.com</AlternateText>
+    <Impressions>40</Impressions>
+  </Ad>
+</Advertisements>
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+.axpx file
+---------------------------------------------------------------------------------------------------------------------------------------
+<%@ page language="C#" autoeventwireup="true" codefile="Default20.aspx.cs" inherits="Default20" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:AdRotator ID="AdRotator1" runat="server" AdvertisementFile="~/adrotator.xml" Target="_blank" />
+	//target="_blank" --> opens the target file at new page in chrome.
+               //AdvertisementFile="~/adrotator.xml" --> connecting XML to the Adrotator control
+              //<keyword> tells which adds should get more or most priority
+        </div>
+    </form>
+</body>
+</html>
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+.cs file / incase you need to change the keyword dynamically
+---------------------------------------------------------------------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default20 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        AdRotator1.KeywordFilter = "pop";
+    }
+}

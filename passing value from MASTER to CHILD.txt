@@ -1,0 +1,150 @@
+--------------------------------------------------------------------------------------------------------------------
+MASTER PAGE
+--------------------------------------------------------------------------------------------------------------------
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage2.master.cs" Inherits="MasterPage2" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <table style="font-family: Arial">
+            <tr>
+                <td colspan="2" style="width: 800px; height: 80px; text-align: center; background-color: #BDBDBD;">
+                    <h1>WebSite Header
+                    </h1>
+                    <p>search:
+                        <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+&nbsp;&nbsp;
+                        <asp:Button ID="Button1" runat="server" Height="20px" Text="Search" Width="86px" />
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="height: 500px; background-color: #D8D8D8; width: 150px">
+                    <h3>Menu</h3>
+                    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                </td>
+                <td style="height: 500px; background-color: #E6E6E6; width: 650px">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                        <h1>Section that changes on a page by page basis
+                    <asp:ContentPlaceHolder ID="MainContentPlaceHolder1" runat="server">
+                        <h1>Section that changes on a page by page basis</h1>
+                    </asp:ContentPlaceHolder>
+                        </h1>
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="background-color: #BDBDBD; text-align: center">
+                    <b>Website Footer</b>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+
+--------------------------------------------------------------------------------------------------------------------
+.MASTER
+--------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class MasterPage2 : System.Web.UI.MasterPage
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    public TextBox show
+    {
+        get
+        {
+            return TextBox1;
+        }
+    }
+
+    public TextBox search //will invoke at default 18 page as to pass the searched content
+    {
+        get
+        {
+            return TextBox2;
+        }
+    }
+
+    public Button but
+    {
+        get
+        {
+            return Button1;
+        }
+    }
+
+    public string searchword
+    {
+        get
+        {
+            return TextBox2.Text;
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------
+.CS FILE
+--------------------------------------------------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default18 : System.Web.UI.Page
+{
+    clientEntities ob = new clientEntities();
+   
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        //if (!Page.IsPostBack)
+        //{
+            getdata(((MasterPage2)Master).search.Text);
+            ((MasterPage2)Master).but.Click += But_Click; //generating a button click event- FROM HERE
+        //}
+    }
+
+    private void But_Click(object sender, EventArgs e) //generating a button click event
+    {
+        getdata(((MasterPage2)Master).search.Text);
+
+        ((MasterPage2)Master).show.Text = getdata2(((MasterPage2)Master).search.Text).ToString();
+        //1. catching value from getdata2 in order to extract name using "(((MasterPage2)Master).search.Text)"
+        //2. invoking getdata2 method to get name.
+        //3. "((MasterPage2)Master).show.Text" --> puts the value at textbox1
+    }
+
+    private void getdata(string search) //searching a value
+    {
+        var str = (from test in ob.tblStudents where test.Name==search select test).ToList();
+        GridView1.DataSource = str;
+        GridView1.DataBind();
+    }
+
+    private string getdata2(string search)
+    {
+        var v = (from testy in ob.tblStudents where testy.Name == search select testy.Name).FirstOrDefault();
+        return v;
+    }
+
+
+}

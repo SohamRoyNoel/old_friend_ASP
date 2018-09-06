@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Net.Mail;
+using System.Net;
+
+namespace email.Controllers
+{
+    public class HomeController : Controller
+    {
+        // GET: Home
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(string sender, string subject, string body)
+        {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    var sendermail = new MailAddress("noelleroy720@gmail.com", "Soham");
+                    var send = new MailAddress(sender, "marry");
+
+                    var password = "noelle1234";
+                    var sub = subject;
+                    var bod = body;
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(sendermail.Address, password)
+                    };
+
+                    using (var masy = new MailMessage(sendermail, send))
+                    {
+                        masy.Subject = sub;
+                        masy.Body = bod;
+                        smtp.Send(masy);
+                    }
+
+                    
+                }
+            }
+            catch(Exception)
+            {
+
+            }
+
+            return View();
+        }
+    }
+}

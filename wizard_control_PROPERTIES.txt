@@ -1,0 +1,54 @@
+Properties:
+
+ActiveStepIndex - Used to set or get the ActiveStepIndex of the wizard control
+
+DisplayCancelButton - Determines the visibility of the cancel button in the wizard control
+
+CancelButtonImageUrl - If the cancel button type is set to Image button. Then set this property to specify the image.
+
+CancelButtonStyle - The style properties to customize the cancel button
+
+CancelButtonText - If the cancel button type is set to Link or Button, then set this property to specify the Text of the button.
+
+CancelButtonType - Use to Specify the type of cancel button. This can be Button, Image or Link.
+
+CancelDestinationPageUrl - The destination page to redirect to, when the cancel button is clicked. This can be a page with in the application or an external website
+
+DisplaySideBar - Determines if the wizard sidebar should be displayed or not
+
+FinishCompleteButtonType - The button type of the finish step's finish button
+
+FinishPreviousButtonType - The button type of the finish step's previous button
+
+HeaderStyle - The style properties to customize the wizard header
+
+HeaderText - The header text of the wizard control
+protected void Page_PreRender(object sender, EventArgs e)
+{
+    if (Wizard1.ActiveStepIndex == 1)
+    {
+        Wizard1.HeaderText = "Contact Details";
+    }
+    else if (Wizard1.ActiveStepIndex == 2)
+    {
+        Wizard1.HeaderText = "Summary";
+    }
+}
+
+NavigationButtonStyle - The style properties to customize the wizard navigation buttons
+
+NavigationStyle - The style properties to customize the navigation area that holds the navigation buttons
+
+SideBarButtonStyle - The style properties to customize the wizard sidebar buttons
+
+SideBarStyle - The style properties to customize the wizard sidebar
+
+StartNextButtonType - The type of the start step's next button
+
+StepNextButtonType - The button type of next step button
+
+StepPreviousButtonType - The button type of previous step button
+
+StepStyle - The style properties to customize the wizard steps
+
+Note: WizardSteps can be added in the HTML source or using the WizardSteps collection editor.

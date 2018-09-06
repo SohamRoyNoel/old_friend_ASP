@@ -1,0 +1,46 @@
+***************************************************************
+testing if cookies are disabled in browser
+***************************************************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default26 : System.Web.UI.Page
+{
+    //checking if the cookie is enabled or disabled
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            if (Request.QueryString["check"] == null) //3. reading the test cookie
+            {
+                HttpCookie cook = new HttpCookie("Cobra", "1");//1. initialing test cookie, //pusing 1 at "Cobra" cookie
+                Response.Cookies.Add(cook); //adding the cookie
+                Response.Redirect("Default26.aspx?check=1"); //2. self Redirecting; initializing check value at 1
+            }
+            else
+            {
+                HttpCookie obj = Response.Cookies["Cobra"]; //getting the value from the cookie Cobra
+                if (obj == null)
+                {
+                    Response.Write("cookie is disabled");
+                }
+            }
+        }
+    }
+
+    //implementing cookie & sending into default 27
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        HttpCookie ob = new HttpCookie("Rattle");
+        ob["Name"] = TextBox1.Text;
+        ob["Email"] = TextBox2.Text;
+
+        Response.Cookies.Add(ob);
+
+        Response.Redirect("Default27.aspx");
+    }
+}

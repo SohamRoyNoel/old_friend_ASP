@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Default11 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            //code to binddata dynamically in dropdownlist
+            int i = 2017;
+            while(i>=1960)
+            {
+                int j = 0;
+                DropDownList2.Items.Insert(j, i.ToString());
+                DropDownList2.DataBind();
+                j++;
+                i--;
+            }
+        }
+    //set Autupostback is true, else it's not gonna hit the calender as soon as the date is changed
+    }
+
+    protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+    {
+        
+    }
+
+    protected void DropDownList2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int year = Convert.ToInt32(DropDownList2.SelectedValue);
+        int month = Convert.ToInt32(DropDownList3.SelectedValue);
+        Calendar1.VisibleDate = new DateTime(year, month, 1);
+    }
+
+    protected void DropDownList3_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int year = Convert.ToInt32(DropDownList2.SelectedValue);
+        int month = Convert.ToInt32(DropDownList3.SelectedValue);
+        Calendar1.VisibleDate = new DateTime(year, month, 1);
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    { 
+            Label1.Text = Calendar1.SelectedDate.ToShortDateString();
+        //where's the fuckin validation asshole.............!
+    }
+}

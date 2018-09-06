@@ -1,0 +1,48 @@
+error types. 
+****************************************************************
+Handling exceptions using try/catch blocks is commonly termed as structured exception handling. Asp.net provide 2 error events
+Page_Error - This event is raised at the page level, when there is an unhandled exception on the page. The event handler resides on the page.
+Application_Error - This event is raised at the application level, when there is an unhandled exception at an application level. The event handler resides in Global.asax file
+
+***************************************************************
+page level
+****************************************************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+
+public partial class error_type : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        DataSet ob = new DataSet();
+        ob.ReadXml(Server.MapPath("~/XMLFle.xml"));
+        GridView1.DataSource = ob;
+        GridView1.DataBind();
+    }
+
+    protected void Page_Error(object sender, EventArgs e)
+    {
+        Exception ep = Server.GetLastError();
+        Server.ClearError();
+        Response.Redirect("Default.aspx");
+    }
+}
+***************************************************************
+note that
+***************************************************************
+The code tries to read xml data from Countries.xml file. At the moment, the file is not present and we get a FileNotFound exception. Since this exception is not handled using a try/catch block in the Page_Load event, the eror get to the page level and is handled by Page_Error event handler. In Page_Error event handler
+1. We get the exception information using Server.GetLastError() method.
+2. Do something with the exception, such as redirect the user to a generic error page, display an error message on the same page which caused the exception, try to correct the problem, or log the exception to a database table or event viewer and notify the development team. We will discuss about logging and notifications in a later video session.
+3. We then clear, the exception, so that it is not get propagated to the application level.
+4. Finally we redirect the user to a generic error page, Errors.aspx
+
+Please note that 
+1. If the exception is not cleared in the Page_Error event, it gets propagated to the application level, and Application_Error event handler gets executed. If we are not clearing the exception at the application level, the application crashes with the "Yellow Screen of Death".
+2. If the exception is cleared and redirection to Errors.aspx is not done, then a blank page is displayed.  This is because web form processing is immediately stopped when an exception occurs.
+
+If an exception is not handled at the page level using Page_Error event, it get's to the application level and can be handled using the Application_Error event handler in Global.asax and can be used as a single, centralized location for error handling. 

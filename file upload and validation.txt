@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.IO;
+
+public partial class Default4 : System.Web.UI.Page
+{
+    clientEntities ob = new clientEntities();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        if(FileUpload1.HasFile)
+        {
+            string etc = System.IO.Path.GetExtension(FileUpload1.FileName);
+            if(etc.ToLower()==".jpg" || etc.ToLower()==".png")
+            {
+                int siz = FileUpload1.PostedFile.ContentLength;
+                if(siz<2097152)
+                {
+                    FileUpload1.SaveAs(Server.MapPath("~\\img\\" + FileUpload1.FileName));
+                    string act = "~\\img\\" + FileUpload1.FileName;
+                    ob.Table_2.Add(new Table_2 { name = act, type = etc, size=siz });
+                    ob.SaveChanges();
+                    Label1.Text = "upload successfull";
+                    Label1.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    Label1.Text = "file size is too big, max 2mb " + siz;
+                }
+                
+            }
+            else
+            {
+                Label1.Text = "only .jpg and .png files are allowed";
+            }
+        }
+        else
+        {
+            Label1.Text = "you've not uploaded any file";
+        }
+    }
+}

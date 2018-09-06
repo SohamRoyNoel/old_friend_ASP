@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.IO;
+
+public partial class Default16 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        upload();
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        if(FileUpload1.HasFile)
+        {
+            FileUpload1.SaveAs(Server.MapPath("~\\default_16_test\\" + FileUpload1.FileName));
+        }
+
+        Response.Redirect("~/Default16.aspx"); //shows the same page, so event is created as soon as it is destroyed.
+    }
+
+    private void upload()
+    {
+        //looping through each pics in default_16_test folder to create a dynamic control
+        foreach (string typ in Directory.GetFiles(Server.MapPath("~\\default_16_test")))
+        {
+            ImageButton btn = new ImageButton();
+            FileInfo fi = new FileInfo(typ);
+            btn.ImageUrl = "~\\default_16_test\\" + fi.Name;
+            btn.Height = Unit.Pixel(100);
+            btn.Width = Unit.Pixel(100);
+            btn.Style.Add("padding", "5px");
+            btn.Click +=new ImageClickEventHandler (Btn_Click);
+            Panel1.Controls.Add(btn);
+            ViewState["Nop"]= "~\\default_16_test\\" + fi.Name;
+        }
+    }
+
+    private void Btn_Click(object sender, ImageClickEventArgs e)
+    {
+        //query string to send image url
+        Response.Redirect("Default16_2.aspx?ImageUrl=" + ((ImageButton)sender).ImageUrl);
+    }
+}
